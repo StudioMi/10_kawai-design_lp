@@ -12,14 +12,13 @@
   }
   body {
     font-family: var(--font-main);
-    grid-template-rows: auto 1fr auto;
-    @apply text-[var(--clr-text)] min-h-screen grid;
+    @apply min-h-screen text-[var(--clr-text)];
   }
   main {
     @apply min-h-screen;
   }
   img {
-    @apply w-full h-auto block;
+    @apply block h-auto w-full;
   }
 }
 
