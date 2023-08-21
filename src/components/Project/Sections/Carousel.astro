@@ -1,0 +1,59 @@
+---
+import Image from "@/components/Systems/Image.astro";
+---
+
+<div class="flowslider flowslider">
+  <ul class="flowslider__list flowslider__list--left">
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li01.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li02.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li03.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li04.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li05.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li06.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li07.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li08.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li09.jpg" /></li>
+  </ul>
+  <ul class="flowslider__list flowslider__list--left">
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li01.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li02.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li03.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li04.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li05.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li06.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li07.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li08.jpg" /></li>
+    <li class="flowslider__item"><Image image="/src/assets/images/pc/li09.jpg" /></li>
+  </ul>
+</div>
+
+<style>
+  .flowslider {
+    display: flex;
+    overflow: hidden;
+  }
+  .flowslider .flowslider__list {
+    display: flex;
+    flex-shrink: 0;
+    width: 100%;
+  }
+  .flowslider .flowslider__list.flowslider__list--left {
+    animation: infinityScrollLeft 40s infinite linear both;
+  }
+  .flowslider .flowslider__list .flowslider__item {
+    width: calc(100% / 9);
+    flex-shrink: 0;
+  }
+  .flowslider .flowslider__list .flowslider__item .flowslider__image {
+    width: 100%;
+    height: 100%;
+  }
+  @keyframes infinityScrollLeft {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>
