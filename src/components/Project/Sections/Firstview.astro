@@ -2,6 +2,19 @@
 import Image from "@/components/Systems/Image.astro";
 ---
 
-<div>
-  <Image image="/src/assets/images/pc/01.jpg" />
+<div class="relative">
+  <div>
+    <Image
+      image="/src/assets/images/sp/SP01.jpg"
+      sources={[
+        {
+          src: "/src/assets/images/pc/01.jpg",
+          breakpoint: 768,
+        },
+      ]}
+    />
+  </div>
+  <a href="#cta" class="absolute right-[2%] top-[1%] w-[40%] md:top-[3%] md:w-[20%]">
+    <Image image="/src/assets/images/pc/button-header.png" />
+  </a>
 </div>
