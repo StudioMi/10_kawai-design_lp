@@ -58,12 +58,12 @@ import Image from "@/components/Systems/Image.astro";
   }
 </style>
 
-<script is:inline>
-window.addEventListener("load", function () {
-  setTimeout(function () {
-    document.querySelectorAll(".flowslider__list--left").forEach(function (elem, index) {
-      elem.classList.add("is-active");
-    });
-  }, 1000);
-});
+<script>
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      document.querySelectorAll(".flowslider__list--left").forEach(function (elem, index) {
+        elem.classList.add("is-active");
+      });
+    }, 1000);
+  });
 </script>
