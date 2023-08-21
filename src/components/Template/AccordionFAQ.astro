@@ -1,0 +1,76 @@
+---
+/* 
+アコーディオン付きFAQ用のテンプレート
+コンフルエンスURL：https://pagecraft.atlassian.net/l/cp/a1dj1nmc
+*/
+
+import { Image } from "@astrojs/image/components";
+import Accordion from "@/Systems/Accordion.astro";
+---
+
+<section class="faq">
+  <div class="container">
+    <Accordion noIcon={false} isOpen={false}>
+      <!-- 
+        開いている時に表示させたい時（＝閉じている時に非表示）は.show-open
+        閉じている時に表示させたい時（＝開いている時は非表示）は.show-close
+      -->
+      <Fragment slot="title">
+        <span>FAQ1</span><span class="show-open">開いている時</span><span class="show-close">閉じている時</span>
+      </Fragment>
+      <div slot="contents" class="p-4">fafafa</div>
+    </Accordion>
+
+    <Accordion noIcon={true} isOpen={false}>
+      <!-- 
+        <Accordion noIcon={true}>を設定するとアイコンが非表示になります。
+        <slot name="icon">を設定している場合は、slotが優先されます。
+      -->
+      <Fragment slot="title">FAQ2</Fragment>
+      <div slot="contents" class="p-4">aaaaa</div>
+    </Accordion>
+
+    <Accordion noIcon={false} isOpen={true}>
+      <!-- 
+        isOpen={true}を設定すると最初から開いた状態で表示されます。
+       -->
+      <Fragment slot="title">FAQ3</Fragment>
+      <div slot="contents" class="p-4">dddd</div>
+    </Accordion>
+  </div>
+</section>
+
+<style>
+  .faq {
+    /* FAQのアコーディオンに限定 */
+
+    & :global(.details) {
+      & :global(.summary) {
+        @apply font-bold p-2;
+      }
+
+      /* 開閉で非表示を切り替えたい場合 */
+      & :global(.show-open) {
+        @apply hidden;
+      }
+      &[open] :global(.show-open) {
+        @apply inline-block;
+      }
+      & :global(.show-close) {
+        @apply inline-block;
+      }
+      &[open] :global(.show-close) {
+        @apply hidden;
+      }
+
+      &[open] :global(.icon) {
+        /* 開閉時のアイコンアニメーションはここで設定 */
+        @apply rotate-180;
+      }
+      & :global(.icon) {
+        /* アイコンの位置はここで設定 */
+        @apply absolute top-1/2 -translate-y-1/2 right-[2%] m-auto transform transition duration-300 origin-center;
+      }
+    }
+  }
+</style>

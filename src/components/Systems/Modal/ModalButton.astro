@@ -1,0 +1,14 @@
+---
+/*
+コンフルエンス：https://pagecraft.atlassian.net/wiki/spaces/IS/pages/7831593/Modal
+*/
+export interface Props {
+  modalName: string;
+  class?: string;
+}
+const { modalName, class: className } = Astro.props;
+---
+
+<button class:list={[className]} data-micromodal-trigger={modalName} role="button">
+  <slot />
+</button>

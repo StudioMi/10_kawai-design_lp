@@ -1,0 +1,52 @@
+---
+/* フッターのテキストコンテンツ */
+const Copyright = "Copyright &copy; 2023 株式会社〇〇 All rights reserved.";
+const content = [
+  {
+    name: "特定商取引法に基づく表示",
+    href: "#",
+  },
+  {
+    name: "プライバシーポリシー",
+    href: "#",
+  },
+];
+---
+
+<footer>
+  <ul>
+    {
+      content.map((el) => {
+        return (
+          <li>
+            <a href={el.href}>{el.name}</a>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <p set:html={Copyright} />
+</footer>
+
+<style>
+  footer {
+    /* フッターの色 */
+    --footer-color: #666;
+    --footer-text-color: #fff;
+
+    @apply py-4 px-2 bg-[var(--footer-color)] text-[var(--footer-text-color)] grid place-content-center gap-y-1 text-center text-sm md:text-base;
+    ul {
+      @apply flex gap-x-4 gap-y-2 justify-center flex-wrap;
+      li {
+        @apply flex-shrink-0;
+        &:not(:last-child)::after {
+          content: "/";
+          margin-left: 1rem;
+        }
+        a {
+          @apply hover:underline no-underline;
+        }
+      }
+    }
+  }
+</style>

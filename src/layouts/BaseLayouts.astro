@@ -1,0 +1,223 @@
+---
+/*
+ * コンフルエンス：https://pagecraft.atlassian.net/l/cp/X1JjKzYJ
+ */
+import "@/styles/global.css";
+import metaItemsDefault from "@/assets/data/meta.json";
+import type { HeadTags, BaseLayoutProps, MetaTag, Attributes } from "@/types/baseLayouts";
+
+interface Props extends HeadTags, BaseLayoutProps, Attributes {}
+const {
+  title,
+  description,
+  robots,
+  googlebot,
+  favicon,
+  canonical,
+  keywords,
+  appleTouchIcon,
+  ogp,
+  ogpTwitter,
+  customHeadTags,
+  customBodyStartTags,
+  customBodyEndTags,
+  attr = {
+    htmlAttr: {
+      lang: "ja",
+    },
+    bodyAttr: {},
+  },
+} = Astro.props as Props;
+
+const updatedMetaItemsDefault = metaItemsDefault.map((item: MetaTag) => {
+  const propMappings: Record<string, { tagName: string; attrName: string }> = {
+    title: { tagName: "title", attrName: "content" },
+    description: { tagName: "meta", attrName: "content" },
+    robots: { tagName: "meta", attrName: "content" },
+    googlebot: { tagName: "meta", attrName: "content" },
+    favicon: { tagName: "link", attrName: "href" },
+    canonical: { tagName: "link", attrName: "href" },
+    keywords: { tagName: "meta", attrName: "content" },
+    appleTouchIcon: { tagName: "link", attrName: "href" },
+  };
+  for (const propName in propMappings) {
+    const propMapping = propMappings[propName];
+    const propValue = Astro.props[propName];
+
+    if (propValue !== undefined && item.tagName === propMapping.tagName) {
+      if ((item.tagName === "meta" && item.name === propName) || (item.tagName === "link" && item.rel === propName)) {
+        return { ...item, [propMapping.attrName]: propValue };
+      }
+    }
+  }
+  return item;
+});
+
+const metaItems = updatedMetaItemsDefault.map((item) => {
+  const tagName = item.tagName;
+  const propName = tagName.charAt(0).toLowerCase() + tagName.slice(1);
+  const propValue = {
+    title,
+    description,
+    robots,
+    googlebot,
+    favicon,
+    canonical,
+    keywords,
+    appleTouchIcon,
+    ogp,
+    ogpTwitter,
+    customHeadTags,
+    customBodyStartTags,
+    customBodyEndTags,
+  }[propName];
+
+  if (propValue !== undefined) {
+    if (typeof propValue === "string") {
+      if (item.hasOwnProperty("content")) {
+        return { ...item, content: propValue };
+      } else {
+        return { ...item, ...{ content: propValue } };
+      }
+    } else if (typeof propValue === "object") {
+      return { ...item, ...propValue };
+    }
+  } else {
+    return item;
+  }
+});
+
+const createTags = () => {
+  const headTags: (string | undefined)[] = [];
+  const bodyStartTags: (string | undefined)[] = [];
+  const bodyEndTags: (string | undefined)[] = [];
+
+  const getMimeType = (extension: string) => {
+    switch (extension) {
+      case ".png":
+        return "image/png";
+      case ".ico":
+        return "image/x-icon";
+      case ".jpg":
+      case ".jpeg":
+        return "image/jpeg";
+      case ".gif":
+        return "image/gif";
+      case ".svg":
+        return "image/svg+xml";
+      default:
+        return "";
+    }
+  };
+
+  const metaItemsArray: MetaTag[] = [];
+
+  for (const tagName in metaItems) {
+    const tag = metaItems[tagName];
+    if (Array.isArray(tag)) {
+      tag.forEach((item) => {
+        metaItemsArray.push({ tagName, ...item });
+      });
+    } else {
+      metaItemsArray.push({ tagName, ...tag });
+    }
+  }
+
+  metaItemsArray.forEach((tag: MetaTag) => {
+    const tagName = tag.tagName;
+    if (tagName.startsWith("custom")) {
+      switch (tagName) {
+        case "customHeadTags":
+          headTags.push(tag.content);
+          break;
+        case "customBodyStartTags":
+          bodyStartTags.push(tag.content);
+          break;
+        case "customBodyEndTags":
+          bodyEndTags.push(tag.content);
+          break;
+        default:
+          break;
+      }
+    } else {
+      const attributes: Partial<MetaTag> = { ...tag };
+      delete attributes.tagName;
+
+      // それぞれのタグに合わせて処理を分岐
+      if (tagName === "title") {
+        // titleの場合は<title>タグで囲む
+        headTags.push(`<${tagName}>${tag.content}</${tagName}>`);
+      } else if (tagName === "link" && tag.rel === "icon") {
+        // ファビコンの場合は拡張子を取得して分岐
+        const fileExtensionMatch = tag.href!.match(/(\.\w+)$/);
+        const fileExtension = fileExtensionMatch ? fileExtensionMatch[0] : "";
+        const mimeType = getMimeType(fileExtension);
+
+        // エラー処理
+        if (fileExtension === "") return;
+
+        // icoの場合はrel="icon"のみでサイズも固定
+        if (fileExtension === ".ico") {
+          headTags.push(`<${tagName} rel="icon" href="${tag.href}" />`);
+          return;
+        } else {
+          // それ以外の場合はrel="icon"とtype="mime-type"を指定し、サイズを指定
+          const iconSizes = [16, 32, 48, 64];
+          iconSizes.forEach((size) => {
+            const tagAttributes = Object.keys(attributes)
+              .map((key) => {
+                if (key === "href") {
+                  return `href="${tag.href}"`;
+                } else {
+                  return `${key}="${attributes[key]}"`;
+                }
+              })
+              .concat(`type="${mimeType}"`)
+              .join(" ");
+
+            headTags.push(`<${tagName} ${tagAttributes} sizes="${size}x${size}" />`);
+          });
+        }
+      } else if (tagName === "meta" && tag.name === "robots") {
+        // robotsの場合は分岐によってindexかnoindexを出力
+        headTags.push(`<${tagName} name=${tag.name} content=${robots ? "index" : "noindex"} />`);
+      } else if (tagName === "meta" && tag.name === "googlebot") {
+        // googlebotの場合は分岐によってindexかnoindexを出力
+        headTags.push(`<${tagName} name=${tag.name} content=${googlebot ? "index" : "noindex"} />`);
+      } else {
+        // それ以外の場合はそのまま出力
+        const tagAttributes = Object.keys(attributes)
+          .map((key) => `${key}="${attributes[key]}"`)
+          .join(" ");
+
+        headTags.push(`<${tagName} ${tagAttributes} />`);
+      }
+    }
+  });
+
+  return { headTags, bodyStartTags, bodyEndTags };
+};
+
+const { headTags, bodyStartTags, bodyEndTags } = createTags();
+const htmlAttributes = attr?.htmlAttr ? attr.htmlAttr : {};
+const bodyAttributes = attr?.bodyAttr ? attr.bodyAttr : {};
+---
+
+<!DOCTYPE html>
+<html {...htmlAttributes}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,interactive-widget=overlays-content" />
+    <meta name="format-detection" content="telephone=no, email=no, address=no" />
+    {headTags.map((el) => <Fragment set:html={el} />)}
+    <slot name="head" />
+  </head>
+  <body {...bodyAttributes}>
+    {bodyStartTags.map((el) => <Fragment set:html={el} />)}
+    <slot name="header" />
+    <slot />
+    {bodyEndTags.map((el) => <Fragment set:html={el} />)}
+    <slot name="footer" />
+  </body>
+</html>

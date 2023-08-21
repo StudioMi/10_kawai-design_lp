@@ -1,0 +1,37 @@
+---
+// コンフルエンス：https://pagecraft.atlassian.net/l/cp/2vjoJZuN
+import CountdownTimer from "@/components/Systems/CountdownTimer.astro";
+
+/* ====== 初期設定 ====== */
+const isSticky = true; // 固定するかどうか
+const timerId = "timer"; // タイマーのid
+const hiddenBeforeText = false; // タイマーの前に注意文を非表示にする
+const hiddenAfterText = false; // タイマーの後に注意文を非表示にする
+---
+
+<header class:list={["countdown-header", isSticky && "sticky top-0 left-0"]}>
+  <CountdownTimer id={timerId} hiddenBeforeText={hiddenBeforeText} hiddenAfterText={hiddenAfterText} />
+</header>
+
+<style is:global>
+  :where(.countdown-header) {
+    .countdown {
+      @apply flex justify-center items-center min-h-[5rem] bg-green-500;
+      & > span {
+        @apply mx-4;
+      }
+    }
+    .timer_time {
+      @apply text-2xl font-bold text-blue-400;
+      &.timer_sec {
+        @apply text-xl font-normal text-blue-400;
+      }
+    }
+    .timer_unit {
+      @apply font-bold;
+      &.unit_hour {
+        @apply text-red-400;
+      }
+    }
+  }
+</style>

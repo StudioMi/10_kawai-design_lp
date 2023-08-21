@@ -1,0 +1,88 @@
+---
+import "../styles/global.css";
+import config from "../assets/data/config.json";
+
+interface Props {
+  title?: string;
+  desc?: string;
+  keywords?: string;
+  ogp?: boolean;
+  index?: boolean;
+  favicon?: string;
+  facebook?: {
+    url?: string;
+    title?: string;
+    desc?: string;
+    imageUrl?: string;
+    appId?: string;
+  };
+  twitter?: {
+    title?: string;
+    desc?: string;
+    imageUrl?: string;
+    Card?: string;
+  };
+}
+
+const {
+  title = config.title !== "" ? config.title : "",
+  desc = config.desc !== "" ? config.desc : "",
+  keywords = config.keywords !== "" ? config.keywords : "",
+  facebook = {
+    url: config.facebookUrl !== "" ? config.facebookUrl : "",
+    title: config.facebookTitle !== "" ? config.facebookTitle : "",
+    desc: config.facebookDesc !== "" ? config.facebookDesc : "",
+    imageUrl: config.facebookImageUrl !== "" ? config.facebookImageUrl : "",
+    appId: config.facebookAppId !== "" ? config.facebookAppId : "",
+  },
+  twitter = {
+    title: config.twitterTitle !== "" ? config.twitterTitle : "",
+    desc: config.twitterDesc !== "" ? config.twitterDesc : "",
+    imageUrl: config.twitterImageUrl !== "" ? config.twitterImageUrl : "",
+    Card: config.twitterCard !== "" ? config.twitterCard : "summary_large_image",
+  },
+  index = config.index,
+  ogp = true,
+  favicon,
+} = Astro.props;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href={favicon ? favicon : "./favicon.ico"} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={desc} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content={index ? "index" : "none"} />
+
+    <title>{title}</title>
+
+    {
+      ogp && (
+        <>
+          <meta property="og:url" content={facebook.url} />
+          <meta property="og:title" content={facebook.title} />
+          <meta property="og:type" content="website" />
+          <meta property="og:description" content={facebook.desc} />
+          <meta property="og:image" content={facebook.imageUrl} />
+          <meta property="og:site_name" content={facebook.title} />
+          <meta property="fb:app_id" content={facebook.appId} />
+          <meta property="og:locale" content="ja_JP" />
+
+          <meta name="twitter:card" content={twitter.Card} />
+          <meta name="twitter:site" content={twitter.title} />
+          <meta name="twitter:description" content={twitter.desc} />
+          <meta name="twitter:image:src" content={twitter.imageUrl} />
+        </>
+      )
+    }
+    <Fragment set:html={config.headTags} />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+    <Fragment set:html={config.bodyCloseTags} />
+  </body>
+</html>

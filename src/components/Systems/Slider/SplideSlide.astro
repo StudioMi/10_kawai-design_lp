@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<li class="splide__slide">
+  <div class:list={[className]}>
+    <slot />
+  </div>
+</li>

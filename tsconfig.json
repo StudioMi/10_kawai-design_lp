@@ -1,0 +1,15 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["src/*"],
+      "@/Template/*": ["src/components/Template/*"],
+      "~/Template/*": ["src/components/Template/*"],
+      "@/Systems/*": ["src/components/Systems/*"],
+      "~/Systems/*": ["src/components/Systems/*"]
+    }
+  }
+}

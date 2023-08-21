@@ -1,0 +1,43 @@
+---
+/* 
+About : Slider用のコンポーネント
+Splideのドキュメント
+https://ja.splidejs.com/guides/getting-started/
+ */
+import "@splidejs/splide/css/core";
+---
+
+<section class="container max-w-screen-md">
+  <div class="splide" aria-label="Splideの基本的なHTML">
+    <div class="splide__track">
+      <ul class="splide__list">
+        <li class="splide__slide">Slide 01</li>
+        <li class="splide__slide">Slide 02</li>
+        <li class="splide__slide">Slide 03</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .splide__slide {
+    @apply bg-orange-200 h-[40vh];
+  }
+</style>
+
+<script>
+  import Splide from "@splidejs/splide";
+  const options = {
+    type: "loop",
+    perPage: 2,
+    gap: "1rem",
+    easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+    snap: true,
+  };
+  const splide = document.querySelectorAll(".splide");
+  document.addEventListener("DOMContentLoaded", () => {
+    splide.forEach((el: HTMLElement) => {
+      new Splide(el, options).mount();
+    });
+  });
+</script>

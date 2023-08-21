@@ -1,0 +1,77 @@
+---
+interface Props {
+  isOpen?: boolean;
+  noIcon?: boolean;
+}
+const { isOpen = false, noIcon } = Astro.props;
+const initialOpenAttr = () => {
+  return isOpen ? { "data-accordion-open": "true" } : { "data-accordion-open": "false" };
+};
+
+// アイコンがない場合
+const noIconAttr = () => {
+  const slotIcon = Astro.slots.has("icon");
+  if (slotIcon) return true;
+  if (noIcon) return false;
+  return true;
+};
+---
+
+<details class="details" data-accordion-datails {...initialOpenAttr()}>
+  <summary class="summary" data-accordion-title>
+    <slot name="title" />
+    {
+      noIconAttr() && (
+        <span class="icon">
+          <slot name="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </slot>
+        </span>
+      )
+    }
+  </summary>
+  <div class="overflow-hidden" data-accordion-content>
+    <slot name="contents" />
+  </div>
+</details>
+
+<style>
+  :where(.details) {
+    .summary {
+      /* 見出しはここで設定 */
+      @apply block relative;
+      &::-webkit-details-marker {
+        @apply hidden;
+      }
+    }
+
+    /* 開閉で非表示を切り替えたい場合 */
+    & .show-open {
+    }
+    &[open] .show-open {
+    }
+    & .show-close {
+    }
+    &[open] .show-close {
+    }
+
+    & .icon {
+      /* アイコンの位置はここで設定 */
+    }
+    &[open] .icon {
+      /* 開閉時のアイコンアニメーションはここで設定 */
+    }
+  }
+</style>
+
+<script>
+  import { useAccordion } from "@/scripts/Systems/Accordion";
+
+  window.addEventListener("DOMContentLoaded", () => {
+    useAccordion({
+      duration: 0.4, // アコーディオンの開閉時間
+    });
+  });
+</script>

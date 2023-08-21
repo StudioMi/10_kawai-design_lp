@@ -1,0 +1,96 @@
+---
+/*
+コンフルエンス：https://pagecraft.atlassian.net/wiki/spaces/IS/pages/7831593/Modal
+*/
+export interface Props {
+  modalName: string;
+  class?: string;
+}
+const { modalName, class: className } = Astro.props;
+---
+
+<script src="@/scripts/Systems/Modal.ts"></script>
+
+<div class="modal" id={modalName} aria-hidden="true" class:list={[className]}>
+  <div class="overlay" tabindex="-1" data-micromodal-close>
+    <div role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <div class="modal-inner">
+          <slot name="modalContent">
+            <div class="bg-white w-full h-full max-w-screen-sm aspect-video p-6">
+              <p>
+                div[slot="modalContent"]でコンテンツを指定。その際、widthとheightを指定することでコンテナの大きさを可変できます。指定しないとコンテンツ幅に応じて変動します。
+              </p>
+              <p>
+                Fragment[slot="modalClose"]で閉じるボタンを指定可能です。imgやsvgに直接[slot="modalClose"]を指定してもOK。classに[--modal-close-top:5%][--modal-close-right:5%]のように変数を指定すればボタンの位置も変更可能です。
+              </p>
+            </div>
+          </slot>
+          <button class="modal-close" aria-label="Close modal" data-micromodal-close>
+            <slot name="modalClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </slot>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .modal {
+    --fade-duration: 0.3s;
+    --modal-close-top: 0.5rem;
+    --modal-close-right: 0.5rem;
+    @apply opacity-0 hidden fixed top-0 left-0 z-50 w-full h-full;
+    &.is-open {
+      @apply block;
+    }
+    &[aria-hidden="false"] {
+      animation: fadeIn var(--fade-duration) forwards;
+    }
+    &[aria-hidden="true"] {
+      animation: fadeOut var(--fade-duration) forwards;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    .modal-content {
+      @apply absolute top-0 bottom-0 left-0 right-0 m-auto overflow-hidden overflow-y-auto cursor-auto w-fit h-fit;
+      .modal-inner {
+        @apply relative;
+        .modal-close {
+          @apply absolute top-[var(--modal-close-top)] right-[var(--modal-close-right)] w-fit h-fit;
+          img {
+            @apply w-full h-full object-contain;
+          }
+        }
+      }
+    }
+  }
+  .overlay {
+    @apply absolute top-0 left-0 w-full h-full -z-10 cursor-pointer bg-black/70;
+  }
+</style>

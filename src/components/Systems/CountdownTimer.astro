@@ -1,0 +1,97 @@
+---
+/*
+コンフルエンス：https://pagecraft.atlassian.net/l/cp/msK16M24
+*/
+interface Props {
+  id?: string;
+  class?: string;
+  hiddenBeforeText?: boolean;
+  hiddenAfterText?: boolean;
+}
+const { id = "timer", class: className, hiddenBeforeText, hiddenAfterText } = Astro.props;
+---
+
+<div class:list={[className, "countdown"]}>
+  {
+    !hiddenBeforeText && (
+      <slot name="beforeText">
+        <span class="text-red-400 bg-yellow-400">
+          【beforeText】不要な場合はhiddenBeforeText={"{true}"}を入れてください
+        </span>
+      </slot>
+    )
+  }
+  <time
+    class="timer"
+    data-countdown={`cd-${id}`}
+    role="timer"
+    aria-live="polite"
+    aria-labelledby={`cd-${id}-label`}
+    aria-describedby={`cd-${id}-desc`}
+    aria-hidden="true">
+  </time>
+  {
+    !hiddenAfterText && (
+      <slot name="afterText">
+        <span class="text-red-400 bg-yellow-300">
+          【afterText】不要な場合はhiddenAfterText={"{true}"}を入れてください
+        </span>
+      </slot>
+    )
+  }
+  <div class="sr-only">
+    <span id={`cd-${id}-label`}>カウントダウンタイマー</span>
+    <span id={`cd-${id}-desc`}>このページは一定時間後に見えなくなります</span>
+  </div>
+</div>
+
+<script>
+  import { useCountdownTimer } from "@/scripts/Systems/CountdownTimer";
+
+  useCountdownTimer({
+    targetElement: "cd-timer", // 表示させる場所
+
+    // タイマーの種類(countdown: 初回ページ訪問後からのカウントダウン, deadline: 指定した日時までのカウントダウン)
+    timerMode: "countdown",
+
+    // 終了後の挙動(redierct: リダイレクト, changeText: テキスト変更, repeat:同じ設定で繰り返す, none: 何もしない)
+    finishedBehavior: "redirect",
+
+    // 終了後の挙動がredirectの時に設定
+    // リダイレクト先のURL
+    redirectTo: "https://www.google.com/",
+
+    // 終了後の挙動がchangeTextの時に設定
+    // テキスト変更後のテキスト
+    changeText: "終了しました",
+
+    // 終了後の挙動がrepeatまたはchangeTextの時に設定
+    // 終了後にボタンを非表示にするオプション
+    finishedHiddenBtn: true,
+    // 非表示にさせるボタン
+    btnElement: ".btn",
+
+    // テキストのフォーマット
+    timeFormat: "day日hour時min分sec秒ms",
+
+    // タイマーの更新速度(通常はいじらない)
+    countSpeed: 10,
+
+    // 表示させる桁数(1~3)
+    disits: {
+      days: 2,
+      hours: 2,
+      minutes: 2,
+      seconds: 2,
+      milliseconds: 2,
+    },
+
+    // 以下はtimerMode = countdownの時に設定
+    relativeEndTime: 1, // 終了までの時間
+    relativeTimeUnit: "hour", // 時間の単位
+
+    // 以下はtimerMode = deadlineの時に設定
+    // 終了日時
+    fixedEndTime: "2023-04-01T10:10:10",
+  });
+</script>

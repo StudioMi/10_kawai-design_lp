@@ -1,0 +1,29 @@
+---
+// 旧：config.jsonを使用する場合はこちらをインポート
+// import BaseLayouts from "../layouts/OldBaseLayouts.astro";
+
+import Image from "@/components/Systems/Image.astro";
+import CustomScripts from "../components/Project/Scripts/CustomScripts.astro";
+import BaseLayouts from "../layouts/BaseLayouts.astro";
+import type { HeadTags, Attributes } from "@/types/baseLayouts";
+
+const LayoutProps: HeadTags & Attributes = {
+  title: "Home",
+  robots: false,
+  googlebot: false,
+  attr: {
+    htmlAttr: {
+      lang: "ja",
+    },
+  },
+};
+---
+
+<BaseLayouts {...LayoutProps}>
+  <Fragment slot="head"></Fragment>
+  <Fragment slot="header"></Fragment>
+  <main></main>
+  <Fragment slot="footer">
+    <CustomScripts />
+  </Fragment>
+</BaseLayouts>

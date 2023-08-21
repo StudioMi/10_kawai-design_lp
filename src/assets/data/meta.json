@@ -1,0 +1,11 @@
+[
+  {
+    "tagName": "title",
+    "content": "テストタイトルです"
+  },
+  {
+    "tagName": "link",
+    "rel": "icon",
+    "href": "./favicon.svg"
+  }
+]

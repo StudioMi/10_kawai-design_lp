@@ -1,0 +1,98 @@
+---
+import { renderPicture } from "astro-imagetools/api";
+
+interface Props {
+  sources?: {
+    src: string;
+    breakpoint: number;
+  }[];
+  image: string;
+  alt?: string;
+  fetchpriority?: "auto" | "high" | "low";
+  decoding?: "sync" | "async" | "auto";
+  loading?: "eager" | "lazy";
+  class?: string;
+  title?: string;
+}
+const {
+  image,
+  sources,
+  alt = "",
+  fetchpriority = "auto",
+  decoding = "auto",
+  loading = "lazy",
+  title,
+  class: className = "",
+} = Astro.props;
+
+const artDirective = sources?.map((item) => {
+  return {
+    src: item.src,
+    media: `(min-width: ${item.breakpoint}px)`,
+  };
+});
+
+const { picture } = await renderPicture({
+  src: image,
+  alt: alt,
+  artDirectives: artDirective,
+});
+// 余計なclassとstyleとonloadを削除
+const removeClassAndStyle = (html: string) => {
+  return html
+    .replace(/class=".*?"/g, "")
+    .replace(/style=".*?"/g, "")
+    .replace(/onload=".*?"/g, "");
+};
+
+// PictureのHTMLタグを配列に変換
+const convertHtmlToArray = (html: string): Array<Record<string, string>> => {
+  const regex = /<(source|img)[^>]*?>/g;
+  const attributeRegex = /(\w+)="([^"]*?)"/g;
+
+  const result: Array<Record<string, string>> = [];
+
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(html))) {
+    const tagContent = match[0];
+    const attributes: Record<string, string> = {};
+
+    let attrMatch: RegExpExecArray | null;
+    while ((attrMatch = attributeRegex.exec(tagContent))) {
+      const [_, attributeName, attributeValue] = attrMatch;
+      attributes[attributeName] = attributeValue;
+    }
+    result.push(attributes);
+  }
+
+  return result;
+};
+const tag = convertHtmlToArray(removeClassAndStyle(picture));
+---
+
+{
+  tag && (
+    <picture class={className}>
+      {tag.map((item, i) => {
+        if (tag.length > i + 1) {
+          return (
+            <source srcset={item.srcset} media={item.media} width={item.width} height={item.height} type={item.type} />
+          );
+        } else {
+          return (
+            <img
+              src={item.srcset}
+              alt={item.alt}
+              width={item.width}
+              height={item.height}
+              decoding={decoding}
+              loading={loading}
+              fetchpriority={fetchpriority}
+              title={title}
+            />
+          );
+        }
+      })}
+    </picture>
+  )
+}

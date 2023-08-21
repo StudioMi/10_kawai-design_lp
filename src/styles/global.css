@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-main: "Noto Sans JP", sans-serif;
+    --clr-text: #333333;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-main);
+    grid-template-rows: auto 1fr auto;
+    @apply text-[var(--clr-text)] min-h-screen grid;
+  }
+  main {
+    @apply min-h-screen;
+  }
+  img {
+    @apply w-full h-auto block;
+  }
+}
+
+@layer utilities {
+  .hidden-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hidden-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .spOnly {
+    @apply md:hidden;
+  }
+  .pcOnly {
+    @apply hidden md:block;
+  }
+}

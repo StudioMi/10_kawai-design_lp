@@ -1,0 +1,23 @@
+---
+// コンフルエンス：https://pagecraft.atlassian.net/l/cp/L0sMeZjF
+export interface Props {
+  class?: string;
+  toId?: string;
+  fixed?: boolean;
+}
+const { class: className, toId = "#top", fixed = true } = Astro.props;
+
+const isPosition = () => {
+  // classNameにrightやbottomが含まれていない場合
+  if (!className) return "right-2 bottom-2";
+  // classNameにrightやbottomが含まれている場合
+  const resultClass: string[] = [];
+  if (!className.includes("right")) resultClass.push("right-2");
+  if (!className.includes("bottom")) resultClass.push("bottom-2");
+  return resultClass.join(" ");
+};
+---
+
+<a href={toId} class:list={[fixed && "fixed z-40", fixed && isPosition(), className]}
+  ><slot>ここにボタンテキストや画像を挿入</slot></a
+>
