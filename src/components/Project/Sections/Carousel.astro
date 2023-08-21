@@ -61,7 +61,9 @@ import Image from "@/components/Systems/Image.astro";
 <script is:inline>
 window.addEventListener("load", function () {
   setTimeout(function () {
-    document.querySelector(".flowslider__list--left").classList.add("is-active");
+    document.querySelectorAll(".flowslider__list--left").forEach(function (elem, index) {
+      elem.classList.add("is-active");
+    });
   }, 1000);
 });
 </script>
