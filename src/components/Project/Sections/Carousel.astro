@@ -37,7 +37,7 @@ import Image from "@/components/Systems/Image.astro";
     flex-shrink: 0;
     width: 100%;
   }
-  .flowslider .flowslider__list.flowslider__list--left {
+  .flowslider__list.flowslider__list--left.is-active {
     animation: infinityScrollLeft 40s infinite linear both;
   }
   .flowslider .flowslider__list .flowslider__item {
@@ -57,3 +57,11 @@ import Image from "@/components/Systems/Image.astro";
     }
   }
 </style>
+
+<script is:inline>
+window.addEventListener("load", function () {
+  setTimeout(function () {
+    document.querySelector(".flowslider__list--left").classList.add("is-active");
+  }, 1000);
+});
+</script>
