@@ -3,7 +3,7 @@ import Image from "@/components/Systems/Image.astro";
 ---
 
 <div class="overflow-hidden">
-  <ul class="slide flex">
+  <ul class="carousel flex">
     <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li01.jpg" /></li>
     <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li02.jpg" /></li>
     <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li03.jpg" /></li>
@@ -26,10 +26,10 @@ import Image from "@/components/Systems/Image.astro";
 </div>
 
 <style>
-  .slide.is-active {
-    animation: slide 40s infinite both linear;
+  .carousel.is-active {
+    animation: carousel 40s infinite both linear;
   }
-  @keyframes slide {
+  @keyframes carousel {
     0% {
       transform: translateX(0%);
     }
@@ -38,7 +38,7 @@ import Image from "@/components/Systems/Image.astro";
     }
   }
   @media (max-width: 768px) {
-    @keyframes slide {
+    @keyframes carousel {
       0% {
         transform: translateX(0%);
       }
@@ -52,7 +52,7 @@ import Image from "@/components/Systems/Image.astro";
 <script>
   window.addEventListener("load", function () {
     setTimeout(function () {
-      document.querySelectorAll(".slide").forEach(function (elem, index) {
+      document.querySelectorAll(".carousel").forEach(function (elem, index) {
         elem.classList.add("is-active");
       });
     }, 1000);
