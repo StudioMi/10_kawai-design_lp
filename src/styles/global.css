@@ -45,7 +45,7 @@
 }
 @media (min-width: 769px) {
   .scale.is-active {
-    animation: scale 2s infinite;
+    animation: scale 2s infinite alternate;
   }
 }
 @keyframes scale {

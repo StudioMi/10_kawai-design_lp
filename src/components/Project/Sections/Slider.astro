@@ -16,7 +16,7 @@ import "@splidejs/splide/css";
   <div class="absolute left-1/2 top-[45%] w-[95%] translate-x-[-50%] md:top-[33%]">
     <section class="splide tab-list" aria-label="タブリスト">
       <div class="splide__track h-full">
-        <ul class="splide__list tab-list">
+        <ul class="splide__list">
           <li class="splide__slide">LP制作</li>
           <li class="splide__slide">商品ページ制作</li>
           <li class="splide__slide">バナー制作</li>
@@ -47,19 +47,9 @@ import "@splidejs/splide/css";
         </ul>
       </div>
       <div class="splide__arrows splide__arrows--ltr">
-        <button
-          class="splide__arrow splide__arrow--prev"
-          type="button"
-          aria-label="Previous slide"
-          aria-controls="splide01-track">
-          <Image image="/src/assets/images/pc/slidebuttonprev.png" /></button
-        >
+        <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Previous slide" aria-controls="splide01-track"> <Image image="/src/assets/images/pc/slidebuttonprev.png" /></button>
 
-        <button
-          class="splide__arrow splide__arrow--next"
-          type="button"
-          aria-label="Next slide"
-          aria-controls="splide01-track">
+        <button class="splide__arrow splide__arrow--next" type="button" aria-label="Next slide" aria-controls="splide01-track">
           <Image image="/src/assets/images/pc/slidebuttonnext.png" class="h-full w-full" />
         </button>
       </div>
@@ -104,9 +94,10 @@ import "@splidejs/splide/css";
   .slidethumbnail.is-active {
     background-color: #cccccc;
   }
-  .tab-list > ul {
+  .tab-list ul {
     @apply grid w-full grid-cols-2 grid-rows-2 gap-x-1 gap-y-1 md:grid-cols-3;
     & li {
+      width: 100% !important;
       @apply border border-[#999999] bg-white py-2 text-center hover:bg-[#CCCCCC] md:text-2xl;
       &:nth-child(1) {
         @apply [grid-area:1/1/2/2];
@@ -123,6 +114,46 @@ import "@splidejs/splide/css";
       &:nth-child(5) {
         @apply [grid-area:2/2/3/3] md:[grid-area:2/3/3/4];
       }
+    }
+  }
+  .splide__track--nav .splide__list .splide__slide {
+    border: 1px solid #999 !important;
+  }
+  .splide__track--nav .splide__list .splide__slide.is-active {
+    border: none !important;
+    outline: none !important;
+    background-color: #ccc;
+  }
+  .splide__arrow {
+    align-items: flex-start !important;
+    width: 6rem !important;
+    background: transparent !important;
+  }
+  @media (max-width: 768px) {
+    .splide__arrow {
+      width: 3rem !important;
+    }
+  }
+  .splide__arrow picture {
+    width: 100%;
+  }
+  .splide__arrow img {
+    width: 100% !important;
+  }
+  .splide__arrow--next {
+    right: -1em !important;
+  }
+  @media (max-width: 768px) {
+    .splide__arrow--next {
+      right: 0em !important;
+    }
+  }
+  .splide__arrow--prev {
+    left: -1em !important;
+  }
+  @media (max-width: 768px) {
+    .splide__arrow--prev {
+      left: 0em !important;
     }
   }
 </style>
