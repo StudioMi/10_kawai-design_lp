@@ -1,94 +1,59 @@
----
-/* 
-* About : Slider用のコンポーネント
-* コンフルエンス：https://pagecraft.atlassian.net/wiki/spaces/IS/pages/12222492/Slider
-* Splideのドキュメント：https://ja.splidejs.com/guides/getting-started/
-*/
-import SplideSlide from "@/Systems/Slider/SplideSlide.astro";
-import SplideSlider from "@/Systems/Slider/SplideSlider.astro";
----
-
-<div class="slider">
-  <SplideSlider id="slide" slideName="ユーザーの声">
-    <SplideSlide class="font-bold min-h-[20rem] bg-green-400">slide1</SplideSlide>
-    <SplideSlide class="font-bold min-h-[20rem] bg-green-400">slide2</SplideSlide>
-    <SplideSlide class="font-bold min-h-[20rem] bg-green-400">slide3</SplideSlide>
-    <SplideSlide class="font-bold min-h-[20rem] bg-green-400">slide4</SplideSlide>
-
-    <Fragment slot="arrows">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
-      </svg>
-    </Fragment>
-  </SplideSlider>
+<div id="main" class="splide" aria-label="メインのスライダー">
+  <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide"></li>
+      <li class="splide__slide"></li>
+      <li class="splide__slide"></li>
+      <li class="splide__slide"></li>
+      <li class="splide__slide"></li>
+      <li class="splide__slide"></li>
+    </ul>
+  </div>
 </div>
 
-<style>
-  .slider {
-    @apply relative w-full px-4 container max-w-full;
-    & :global(.splide__slide) {
-      @apply relative;
-    }
-    & :global(.splide__arrows) {
-      & > :global(.splide__arrow) {
-        /* ボタンを縦方向に中央寄せ */
-        @apply absolute inset-y-0 m-auto z-20;
-        & > * {
-          /* 矢印のサイズ */
-          @apply w-6 h-6 md:w-12 md:h-12 stroke-gray-400 stroke-[3px];
-        }
-      }
-      & > :global(.splide__arrow--prev) {
-        /* 戻るボタンの位置 */
-        @apply left-0;
-      }
-      & > :global(.splide__arrow--next) {
-        /* 進むボタンの位置 */
-        @apply right-0 origin-center;
-        & > * {
-          @apply rotate-180;
-        }
-      }
-    }
-    
-    & :global(.splide__pagination) {
-      @apply absolute inset-x-0 bottom-0 flex justify-center items-end gap-2 z-20;
-      & :global(.splide__pagination__page) {
-        @apply bg-gray-400 w-2 h-2 md:w-4 md:h-4 rounded-full;
-        &:not(.is-active) {
-          @apply opacity-50;
-        }
-      }
-    }
-  }
-</style>
+<div id="thumbnail" class="splide" aria-label="サムネイル">
+  <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide">LP制作</li>
+      <li class="splide__slide">商品ページ制作</li>
+      <li class="splide__slide">バナー制作</li>
+      <li class="splide__slide">ヒートマップを使ったLPO対策</li>
+      <li class="splide__slide">デザイナー育成</li>
+    </ul>
+  </div>
+</div>
 
 <script>
   import Splide from "@splidejs/splide";
-  document.addEventListener("DOMContentLoaded", () => {
-    const slideId = "slide"; // ここにスライダーのIDを記述する
-
-    const elements = document.querySelectorAll(`[data-slider="${slideId}"]`);
-    elements.forEach((el: HTMLElement) => {
-      const slider = new Splide(el, {
-        type: "loop",
-        mediaQuery: "min",
-        snap: true,
-        easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-        /* ↑↑通常ここまでは変える必要なし ↑↑
-        ↓↓ここにオプションを記述する↓↓ */
-        pagination: true, // ページネーションを表示するか
-        arrows: true, // 矢印を表示するか
-        perPage: 1, // 1ページに表示するスライド数
-        breakpoints: {
-          // PC表示の場合
-          768: {
-            perPage: 2,
-            gap: "1rem", // スライド間の余白
-          },
-        },
-      });
-      slider.mount();
-    });
+  const main = new Splide("#main", {
+    cover: true,
+    heightRatio: 0.5,
+    type: "loop",
+    pagination: false,
+    mediaQuery: "min",
+    breakpoints: {
+      600: {
+        heightRatio: 0.3,
+      },
+    },
   });
+  const thumbnails = new Splide("#thumbnail", {
+    fixedWidth: 100,
+    fixedHeight: 60,
+    type: "loop",
+    focus: "center",
+    gap: 10,
+    arrows: false,
+    pagination: false,
+    isNavigation: true,
+    breakpoints: {
+      600: {
+        fixedWidth: 60,
+        fixedHeight: 44,
+      },
+    },
+  });
+  main.sync(thumbnails);
+  main.mount();
+  thumbnails.mount();
 </script>
