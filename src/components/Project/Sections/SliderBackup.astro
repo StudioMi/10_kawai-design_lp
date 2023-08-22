@@ -1,0 +1,129 @@
+---
+import Image from "@/components/Systems/Image.astro";
+---
+
+<div class="relative">
+  <div>
+    <Image
+      image="/src/assets/images/sp/sp05.jpg"
+      sources={[
+        {
+          src: "/src/assets/images/pc/05.jpg",
+          breakpoint: 768,
+        },
+      ]}
+    />
+  </div>
+  <div class="absolute left-1/2 top-[45%] w-[95%] translate-x-[-50%] md:top-[33%]">
+    <ul class="tab-list mb-[4%]">
+      <li class="border border-[#999999] bg-white text-center hover:bg-[#CCCCCC]">
+        <button class="slidethumbnail is-active w-full" data-slidenum="0">LP制作</button>
+      </li>
+      <li class="border border-[#999999] bg-white text-center hover:bg-[#CCCCCC]">
+        <button class="slidethumbnail w-full" data-slidenum="1">商品ページ制作</button>
+      </li>
+      <li class="border border-[#999999] bg-white text-center hover:bg-[#CCCCCC]">
+        <button class="slidethumbnail w-full" data-slidenum="2">バナー制作</button>
+      </li>
+      <li class="border border-[#999999] bg-white text-center hover:bg-[#CCCCCC]">
+        <button class="slidethumbnail w-full" data-slidenum="3">ヒートマップを使ったLPO対策</button>
+      </li>
+      <li class="border border-[#999999] bg-white text-center hover:bg-[#CCCCCC]">
+        <button class="slidethumbnail w-full" data-slidenum="4">デザイナー育成</button>
+      </li>
+    </ul>
+
+    <div class="w-full">
+      <div class="overflow-hidden">
+        <div class="slide flex duration-150">
+          <div class="slideitem w-full shrink-0">
+            <Image image="/src/assets/images/pc/slideLP.jpg" />
+          </div>
+          <div class="slideitem w-full shrink-0">
+            <Image image="/src/assets/images/pc/slideproduct.jpg" />
+          </div>
+          <div class="slideitem w-full shrink-0">
+            <Image image="/src/assets/images/pc/slidebanner.jpg" />
+          </div>
+          <div class="slideitem w-full shrink-0">
+            <Image image="/src/assets/images/pc/slideLPO.jpg" />
+          </div>
+          <div class="slideitem w-full shrink-0">
+            <Image image="/src/assets/images/pc/slideeducation.jpg" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute left-[0] top-[75%] flex w-full justify-between md:top-[60%]">
+    <button class="slideButton Prev block w-[12%] md:w-[6%]">
+      <Image image="/src/assets/images/pc/slidebuttonprev.png" />
+    </button>
+    <button class="slideButton Next block w-[12%] md:w-[6%]">
+      <Image image="/src/assets/images/pc/slidebuttonnext.png" />
+    </button>
+  </div>
+</div>
+
+<style>
+  .slidethumbnail.is-active {
+    background-color: #cccccc;
+  }
+  .tab-list {
+    @apply grid grid-cols-2 grid-rows-2 gap-x-1 gap-y-1 md:grid-cols-3;
+    & > li > button {
+      @apply py-2 md:text-2xl;
+    }
+    & > li:nth-child(1) {
+      @apply [grid-area:1/1/2/2];
+    }
+    & > li:nth-child(2) {
+      @apply [grid-area:1/2/2/3];
+    }
+    & > li:nth-child(3) {
+      @apply md:[grid-area:1/3/2/4];
+    }
+    & > li:nth-child(4) {
+      @apply [grid-area:3/1/4/3] md:[grid-area:2/1/3/3];
+    }
+    & > li:nth-child(5) {
+      @apply [grid-area:2/2/3/3] md:[grid-area:2/3/3/4];
+    }
+  }
+</style>
+
+<script lang="js">
+const slide = document.querySelector(".slide");
+const slideThumbnails = document.querySelectorAll(".slidethumbnail");
+const slideButtons = document.querySelectorAll(".slideButton");
+const slideAmount = document.querySelectorAll(".slideitem").length;
+let current = 0;
+
+const slideChange = function (current) {
+  slideThumbnails.forEach(function (elem, index) {
+    elem.classList.remove("is-active");
+  });
+  slideThumbnails[current].classList.add("is-active");
+  slide.style.transform = `translateX(-${100 * current}%)`;
+};
+
+slideThumbnails.forEach(function (elem, index) {
+  elem.addEventListener("click", function () {
+    const base = Number(elem.dataset.slidenum);
+    current = base;
+    slideChange(current);
+  });
+});
+
+slideButtons.forEach(function (elem, index) {
+  elem.addEventListener("click", function () {
+    if (elem.classList.contains("Prev")) {
+      current = (current - 1) % slideAmount === -1 ? slideAmount - 1 : (current - 1) % slideAmount;
+      slideChange(current);
+    } else {
+      current = (current + 1) % slideAmount;
+      slideChange(current);
+    }
+  });
+});
+</script>
