@@ -13,7 +13,7 @@ import "@splidejs/splide/css";
       },
     ]}
   />
-  <div class="absolute left-1/2 top-[45%] w-[95%] translate-x-[-50%] md:top-[33%]">
+  <div class="absolute left-1/2 top-[45%] w-[95%] -translate-x-1/2 px-4 md:top-[33%]">
     <section class="splide tab-list mb-5 md:mb-10" aria-label="タブリスト">
       <div class="splide__track h-full">
         <ul class="splide__list">
@@ -30,19 +30,39 @@ import "@splidejs/splide/css";
       <div class="splide__track">
         <ul class="splide__list">
           <li class="splide__slide">
-            <Image image="/src/assets/images/pc/slideLP.jpg" />
+            <Image
+              image="/src/assets/images/sp/SPslide1.png"
+              sources={[
+                {
+                  src: "/src/assets/images/pc/slideLP.jpg",
+                  breakpoint: 768,
+                },
+              ]}
+            />
           </li>
           <li class="splide__slide">
-            <Image image="/src/assets/images/pc/slideproduct.jpg" />
+            <Image
+              image="/src/assets/images/sp/SPslide2.png"
+              sources={[{ src: "/src/assets/images/pc/slideproduct.jpg", breakpoint: 768 }]}
+            />
           </li>
           <li class="splide__slide">
-            <Image image="/src/assets/images/pc/slidebanner.jpg" />
+            <Image
+              image="/src/assets/images/sp/SPslide3.png"
+              sources={[{ src: "/src/assets/images/pc/slidebanner.jpg", breakpoint: 768 }]}
+            />
           </li>
           <li class="splide__slide">
-            <Image image="/src/assets/images/pc/slideLPO.jpg" />
+            <Image
+              image="/src/assets/images/sp/SPslide4.png"
+              sources={[{ src: "/src/assets/images/pc/slideLPO.jpg", breakpoint: 768 }]}
+            />
           </li>
           <li class="splide__slide">
-            <Image image="/src/assets/images/pc/slideeducation.jpg" />
+            <Image
+              image="/src/assets/images/sp/SPslide5.png"
+              sources={[{ src: "/src/assets/images/pc/slideeducation.jpg", breakpoint: 768 }]}
+            />
           </li>
         </ul>
       </div>
