@@ -2,7 +2,9 @@
 import Image from "@/components/Systems/Image.astro";
 ---
 
-<a href="#cta" class="shiny button scale fixed bottom-[0%] left-[50%] right-[initial] z-[100] w-[100%] translate-x-[-50%] md:bottom-[22%] md:left-[initial] md:right-[2%] md:w-[10%] md:translate-x-[0]">
+<a
+  href="#cta"
+  class="shiny button scale fixed bottom-[0%] left-[50%] right-[initial] z-[100] w-[100%] translate-x-[-50%] md:bottom-[22%] md:left-[initial] md:right-[2%] md:w-[10%] md:translate-x-[0]">
   <Image
     image="/src/assets/images/sp/buttonfixed.png"
     sources={[
@@ -21,11 +23,11 @@ import Image from "@/components/Systems/Image.astro";
       visibility: hidden;
       transition: 0.4s;
     }
-    .button.is-shown {
-      opacity: 1;
-      visibility: visible;
-      transition: 0.4s;
-    }
+  }
+  .button.is-shown {
+    opacity: 1;
+    visibility: visible;
+    transition: 0.4s;
   }
   .shiny {
     overflow: hidden;
@@ -69,14 +71,27 @@ import Image from "@/components/Systems/Image.astro";
     }, 1000);
   });
 
+  let scrollTimeout = null;
   window.addEventListener("scroll", function () {
+    clearTimeout(scrollTimeout);
     const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+    const pageHeight = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
     if (scrollPosition > windowHeight && scrollPosition < pageHeight - windowHeight * 2) {
       document.querySelector(".button").classList.add("is-shown");
     } else {
       document.querySelector(".button").classList.remove("is-shown");
     }
+
+    scrollTimeout = setTimeout(() => {
+      document.querySelector(".button").classList.remove("is-shown");
+      console.log("scroll end");
+    }, 2000);
   });
 </script>
