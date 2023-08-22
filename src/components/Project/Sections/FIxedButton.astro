@@ -2,7 +2,7 @@
 import Image from "@/components/Systems/Image.astro";
 ---
 
-<a href="#cta" class="fixed bottom-[0%] left-[50%] right-[initial] z-[100] w-[100%] translate-x-[-50%] md:bottom-[2%] md:left-[initial] md:right-[2%] md:w-[10%] md:translate-x-[0]">
+<a href="#cta" class="shiny button scale fixed bottom-[0%] left-[50%] right-[initial] z-[100] w-[100%] translate-x-[-50%] md:bottom-[22%] md:left-[initial] md:right-[2%] md:w-[10%] md:translate-x-[0]">
   <Image
     image="/src/assets/images/sp/buttonfixed.png"
     sources={[
@@ -13,3 +13,70 @@ import Image from "@/components/Systems/Image.astro";
     ]}
   />
 </a>
+
+<style>
+  @media (max-width: 768px) {
+    .button {
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.4s;
+    }
+    .button.is-shown {
+      opacity: 1;
+      visibility: visible;
+      transition: 0.4s;
+    }
+  }
+  .shiny {
+    overflow: hidden;
+  }
+  .shiny:before {
+    position: absolute;
+    z-index: 2;
+    content: "";
+    display: inline-block;
+    top: -180px;
+    left: 0;
+    width: 30px;
+    height: 100%;
+    background-color: #fff;
+    animation: shiny-btn 3s ease-in-out infinite;
+  }
+
+  @keyframes shiny-btn {
+    0% {
+      transform: scale(0) rotate(45deg);
+      opacity: 0;
+    }
+    80% {
+      transform: scale(0) rotate(45deg);
+      opacity: 0.5;
+    }
+    81% {
+      transform: scale(4) rotate(45deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(50) rotate(45deg);
+      opacity: 0;
+    }
+  }
+</style>
+<script>
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      document.querySelector(".scale").classList.add("is-active");
+    }, 1000);
+  });
+
+  window.addEventListener("scroll", function () {
+    const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const pageHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+    if (scrollPosition > windowHeight && scrollPosition < pageHeight - windowHeight * 2) {
+      document.querySelector(".button").classList.add("is-shown");
+    } else {
+      document.querySelector(".button").classList.remove("is-shown");
+    }
+  });
+</script>

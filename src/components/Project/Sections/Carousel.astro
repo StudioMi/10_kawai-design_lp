@@ -2,53 +2,49 @@
 import Image from "@/components/Systems/Image.astro";
 ---
 
-<div class="flowslider flowslider">
-  <ul class="flowslider__list flowslider__list--left">
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li01.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li02.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li03.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li04.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li05.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li06.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li07.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li08.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li09.jpg" /></li>
-  </ul>
-  <ul class="flowslider__list flowslider__list--left">
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li01.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li02.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li03.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li04.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li05.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li06.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li07.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li08.jpg" /></li>
-    <li class="flowslider__item px-2"><Image image="/src/assets/images/pc/li09.jpg" /></li>
+<div class="overflow-hidden">
+  <ul class="slide flex">
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li01.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li02.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li03.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li04.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li05.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li06.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li07.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li08.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li09.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li01.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li02.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li03.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li04.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li05.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li06.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li07.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li08.jpg" /></li>
+    <li class="w-[30%] shrink-0 px-2 md:w-[20%]"><Image loading="eager" image="/src/assets/images/pc/li09.jpg" /></li>
   </ul>
 </div>
 
 <style>
-  .flowslider {
-    display: flex;
-    overflow: hidden;
+  .slide.is-active {
+    animation: slide 40s infinite both linear;
   }
-  .flowslider .flowslider__list {
-    display: flex;
-    flex-shrink: 0;
-  }
-  .flowslider__list.flowslider__list--left.is-active {
-    animation: infinityScrollLeft 40s infinite linear both;
-  }
-  .flowslider .flowslider__list .flowslider__item {
-    flex-shrink: 0;
-  }
-
-  @keyframes infinityScrollLeft {
+  @keyframes slide {
     0% {
-      transform: translateX(0);
+      transform: translateX(0%);
     }
     100% {
-      transform: translateX(-100%);
+      transform: translateX(-180%);
+    }
+  }
+  @media (max-width: 768px) {
+    @keyframes slide {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-270%);
+      }
     }
   }
 </style>
@@ -56,7 +52,7 @@ import Image from "@/components/Systems/Image.astro";
 <script>
   window.addEventListener("load", function () {
     setTimeout(function () {
-      document.querySelectorAll(".flowslider__list--left").forEach(function (elem, index) {
+      document.querySelectorAll(".slide").forEach(function (elem, index) {
         elem.classList.add("is-active");
       });
     }, 1000);
