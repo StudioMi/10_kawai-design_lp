@@ -108,7 +108,7 @@ import "@splidejs/splide/css";
     @apply grid w-full grid-cols-2 grid-rows-2 gap-x-1 gap-y-1 md:grid-cols-3;
     & li {
       width: 100% !important;
-      @apply border border-[#999999] bg-white py-2 text-center hover:bg-[#CCCCCC] md:text-2xl md:font-bold;
+      @apply border-[#999999] bg-white py-2 text-center font-bold hover:bg-[#CCCCCC] md:text-2xl;
       &:nth-child(1) {
         @apply [grid-area:1/1/2/2];
       }
@@ -127,7 +127,7 @@ import "@splidejs/splide/css";
     }
   }
   .splide__track--nav .splide__list .splide__slide {
-    border: 1px solid #999 !important;
+    border: 2px solid #999 !important;
   }
   .splide__track--nav .splide__list .splide__slide.is-active {
     outline: none !important;
