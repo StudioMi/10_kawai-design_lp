@@ -14,7 +14,7 @@ interface Props {
   class?: string;
   title?: string;
 }
-const { image, sources, alt = "", fetchpriority = "auto", decoding = "auto", loading = "lazy", title, class: className = "" } = Astro.props;
+const { image, sources, alt = "", fetchpriority = "auto", decoding = "auto", loading = "eager", title, class: className = "" } = Astro.props;
 
 const artDirective = sources?.map((item) => {
   return {
