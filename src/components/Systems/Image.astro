@@ -10,20 +10,11 @@ interface Props {
   alt?: string;
   fetchpriority?: "auto" | "high" | "low";
   decoding?: "sync" | "async" | "auto";
-  loading?: "eager" | "lazy";
+  loading?: "lazy" | "eager";
   class?: string;
   title?: string;
 }
-const {
-  image,
-  sources,
-  alt = "",
-  fetchpriority = "auto",
-  decoding = "auto",
-  loading = "lazy",
-  title,
-  class: className = "",
-} = Astro.props;
+const { image, sources, alt = "", fetchpriority = "auto", decoding = "auto", loading = "lazy", title, class: className = "" } = Astro.props;
 
 const artDirective = sources?.map((item) => {
   return {
@@ -75,22 +66,9 @@ const tag = convertHtmlToArray(removeClassAndStyle(picture));
     <picture class={className}>
       {tag.map((item, i) => {
         if (tag.length > i + 1) {
-          return (
-            <source srcset={item.srcset} media={item.media} width={item.width} height={item.height} type={item.type} />
-          );
+          return <source srcset={item.srcset} media={item.media} width={item.width} height={item.height} type={item.type} />;
         } else {
-          return (
-            <img
-              src={item.srcset}
-              alt={item.alt}
-              width={item.width}
-              height={item.height}
-              decoding={decoding}
-              loading={loading}
-              fetchpriority={fetchpriority}
-              title={title}
-            />
-          );
+          return <img src={item.srcset} alt={item.alt} width={item.width} height={item.height} decoding={decoding} loading={loading} fetchpriority={fetchpriority} title={title} />;
         }
       })}
     </picture>
